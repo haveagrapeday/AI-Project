@@ -8,49 +8,14 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("This page displays data and basic analysis for Machine Learning.")
 
+    # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
-    files = ["Dialogue.csv", "Characters.csv"]
-    dataframes = {}
+    df_students = pd.read_csv(os.path.join(data_path, "harry_potter_1000_students.csv"), encoding="latin1")
+
+    # 🔹 Clean column names
+    df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
     
-    for file in files:
-        file_path = os.path.join(data_path, file)
-        if os.path.exists(file_path):
-            dataframes[file] = pd.read_csv(file_path, encoding="latin1")
-        else:
-            st.error(f"❌ {file} not found. Please check the file path.")
-            return
-
-    df_dialogue = dataframes["Dialogue.csv"]
-    df_characters = dataframes["Characters.csv"]
-    df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
-
-    # 🔹 5. Plot dialogue count
-    st.subheader("📊 Character Dialogue Count")
-    if "Character_ID" in df_dialogue.columns and "Character_ID" in df_characters.columns:
-        df_dialogue = df_dialogue.dropna(subset=["Character_ID"])
-        df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
-        if "Character_Name" in df.columns:
-            char_counts = df["Character_Name"].value_counts().head(10)
-            
-            fig, ax = plt.subplots()
-            sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
-            ax.set_xlabel("Dialogue Count")
-            ax.set_ylabel("Character Name")
-            ax.set_title("Top 10 Characters with Most Dialogues")
-            st.pyplot(fig)
-        else:
-            st.error("❌ 'Character_Name' column missing after merge.")
-    else:
-        st.error("❌ 'Character_ID' column missing in one of the dataframes.")
-
-    # 🔹 6. Select character to view dialogues
-    st.subheader("🔍 Select a Character to View Dialogues")
-    if "Character_Name" in df.columns:
-        character_selected = st.selectbox("Select a Character", df["Character_Name"].dropna().unique())
-        st.subheader(f"📢 Dialogues of {character_selected}")
-        st.write(df[df["Character_Name"] == character_selected][["Dialogue"]].head(5))
-    
-    # 🔹 7. Analyze Hogwarts House Traits
+    # 🔹 1. Analyze Hogwarts House Traits
     st.subheader("🏰 Hogwarts House Traits Analysis")
     traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
     house_means = df_students.groupby("House")[traits].mean()
@@ -63,8 +28,12 @@ def show():
     ax.set_ylabel("Average Score")
     ax.legend(title="House")
     st.pyplot(fig)
-  
-    # 🔹 9. Character Personality Traits Demo
+    
+    # 🔹 2. Display Sample Data
+    st.subheader("🔍 Sample Data from Harry Potter Students")
+    st.write(df_students.head())
+
+    # 🔹 3. Character Personality Traits Demo
     st.subheader("🎭 Character Personality Traits")
     characters = {
         "Harry Potter": ([8, 7, 6, 5, 2, 9, 6, 4], "Gryffindor"),
@@ -75,7 +44,7 @@ def show():
         "Rubeus Hagrid": ([5, 6, 6, 1, 4, 0, 5, 8], "Gryffindor"),
         "Severus Snape": ([6, 7, 10, 4, 8, 1, 7, 6], "Slytherin"),
         "Voldemort": ([3, 5, 1, 10, 10, 1, 8, 4], "Slytherin"),
-        "Minerva McGonagall": ([8, 10,9, 2, 2, 1, 5, 7], "Slytherin"),
+        "Minerva McGonagall": ([8, 10, 9, 2, 2, 1, 5, 7], "Slytherin"),
         "Luna Lovegood": ([6, 9, 8, 2, 1, 1, 2, 10], "Ravenclaw"),
         "Gilderoy Lockhart": ([2, 3, 1, 5, 3, 1, 3, 6], "Ravenclaw"),
         "Cedric Diggory": ([5, 2, 3, 7, 1, 8, 6, 3], "Hufflepuff"),
