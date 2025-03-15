@@ -37,15 +37,17 @@ def show():
         st.subheader(f"🏆 บ้านของคุณคือ: {sorted_houses[0][0]}!")
         st.write("เลื่อนขวาเพื่อดูการวิเคราะห์บุคลิกภาพของบ้านแต่ละหลัง! ➡️")
 
-    # 🔹 โหลดข้อมูล
+    
+    # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
     df_students = pd.read_csv(os.path.join(data_path, "harry_potter_1000_students.csv"), encoding="latin1")
-    df_dialogues = pd.read_csv(os.path.join(data_path, "Dialogue.csv"), encoding="latin1")
+    df_dialogues = pd.read_csv(os.path.join(data_path, "harry_potter_dialogues.csv"), encoding="latin1")
     
+    # 🔹 Clean column names
     df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
     df_dialogues.columns = df_dialogues.columns.str.replace(" ", "_").str.strip()
     
-    # 🔹 วิเคราะห์ลักษณะบ้านฮอกวอตส์
+    # 🔹 1. Analyze Hogwarts House Traits
     st.subheader("🏰 Hogwarts House Traits Analysis")
     traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
     house_means = df_students.groupby("House")[traits].mean()
@@ -59,6 +61,23 @@ def show():
     ax.legend(title="House")
     st.pyplot(fig)
     
-    # 🔹 แสดงตัวอย่างข้อมูล
+    # 🔹 5. Plot dialogue count
+    st.subheader("📊 Character Dialogue Count")
+    char_counts = df_dialogues["Character_Name"].value_counts().head(10)
+    
+    fig, ax = plt.subplots()
+    sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
+    ax.set_xlabel("Dialogue Count")
+    ax.set_ylabel("Character Name")
+    ax.set_title("Top 10 Characters with Most Dialogues")
+    st.pyplot(fig)
+    
+    # 🔹 6. Select character to view dialogues
+    st.subheader("🔍 Select a Character to View Dialogues")
+    character_selected = st.selectbox("Select a Character", df_dialogues["Character_Name"].dropna().unique())
+    st.subheader(f"📢 Dialogues of {character_selected}")
+    st.write(df_dialogues[df_dialogues["Character_Name"] == character_selected][["Dialogue"]].head(5))
+    
+    # 🔹 2. Display Sample Data
     st.subheader("🔍 Sample Data from Harry Potter Students")
     st.write(df_students.head())
