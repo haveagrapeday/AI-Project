@@ -40,7 +40,7 @@ def show():
     # 🔹 โหลดข้อมูล
     data_path = "datasources/Harry_Potter_Movies"
     df_students = pd.read_csv(os.path.join(data_path, "harry_potter_1000_students.csv"), encoding="latin1")
-    df_dialogues = pd.read_csv(os.path.join(data_path, "dialogues.csv"), encoding="latin1")
+    df_dialogues = pd.read_csv(os.path.join(data_path, "Dialogue.csv"), encoding="latin1")
     
     df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
     df_dialogues.columns = df_dialogues.columns.str.replace(" ", "_").str.strip()
