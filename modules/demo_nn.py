@@ -34,7 +34,6 @@ def preprocess_image(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-def show():  
 # Data Generator Setup for Training
 def setup_data_generator():
     train_datagen = ImageDataGenerator(
@@ -77,8 +76,8 @@ def train_model(train_generator):
     
     return history
 
-# Display function for Streamlit
-def show():
+# Streamlit app interface
+def main():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
     action = st.radio("What would you like to do?", ["Predict", "Train Model"])
@@ -101,11 +100,4 @@ def show():
             else:
                 st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
 
-    elif action == "Train Model":
-        train_generator = setup_data_generator()
-        if st.button("Start Training"):
-            with st.spinner("Training in progress..."):
-                history = train_model(train_generator)
-                st.success("📈 Training Complete!")
-                st.write(f"Training history: {history.history}")
-
+   
