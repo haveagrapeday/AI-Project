@@ -8,7 +8,7 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("Find out which Hogwarts house you should be in! 🏰✨")
 
-    # 👇 ส่วนของแบบทดสอบการเลือกบ้าน
+
     st.subheader("🏠 Hogwarts House Personality")
     questions = [
         ("What do you consider your most prominent quality?", ["Courage", "Intelligence", "Loyalty", "Ambition"]),
@@ -35,7 +35,7 @@ def show():
         hufflepuff = responses.count("Loyalty") + responses.count("Friendship") + responses.count("Try to resolve the situation peacefully through negotiation.") + responses.count("Care of Magical Creatures") + responses.count("Consider the impact on others before deciding.") + responses.count("Cafes, workshops") + responses.count("Be empathetic and listen to others' opinions.") + responses.count("Try to create a friendly and respectful atmosphere.")
         slytherin = responses.count("Ambition") + responses.count("Power") + responses.count("Look for an opportunity to benefit from the situation.") + responses.count("Transfiguration") + responses.count("Decide based on your own best interests.") + responses.count("Hotels, bars") + responses.count("Lead the team towards success.") + responses.count("Not cooperate and work alone, focusing on the results.")
         
-        house_scores = {"Gryffindor": gryffindor, "Ravenclaw": ravenclaw, "Hufflepuff": hufflepuff, "Slytherin": slytherin}
+        house_scores = {"Gryffindor🦁": gryffindor, "Ravenclaw🦅": ravenclaw, "Hufflepuff": hufflepuff🦡, "Slytherin🐍": slytherin}
         sorted_houses = sorted(house_scores.items(), key=lambda x: x[1], reverse=True)
         
         st.subheader(f"🏆 Your Hogwarts House is: {sorted_houses[0][0]}!")

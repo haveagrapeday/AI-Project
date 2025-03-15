@@ -39,7 +39,7 @@ def preprocess_image(img):
 def show():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
-    if st.button("🔀 สุ่มรูปเจ้าหญิง Disney"):
+    if st.button("🔀 RANDOM Disney Princess"):
         selected_label, selected_image_path = random.choice(sample_images)
         
         if selected_image_path and model:

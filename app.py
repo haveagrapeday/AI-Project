@@ -39,10 +39,10 @@ st.sidebar.markdown("<h2 style='text-align: center;'> Navigation</h2>", unsafe_a
 
 pages = {
     " Home": "home",
-    " About ML": "about_ml",
-    " Demo ML": "demo_ml",
-    " About NN": "about_nn",
-    " Demo NN": "demo_nn"
+    " About Machine Learning": "about_ml",
+    " Discover Your Hogwarts House!": "demo_ml",
+    " About Neural Network": "about_nn",
+    " Guess the disney princess👸": "demo_nn"
 }
 
 for page_name, page_key in pages.items():
