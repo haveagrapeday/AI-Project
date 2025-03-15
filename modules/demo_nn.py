@@ -36,7 +36,6 @@ def preprocess_image(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-# ฟังก์ชัน demo_nn เพื่อให้ใช้งานในหน้า Demo ของ Neural Network เท่านั้น
 def demo_nn():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
@@ -60,5 +59,8 @@ def demo_nn():
         
         # ปุ่มทำนายรูปใหม่
         if st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่"):
-            demo_nn()  # เรียกหน้า demo_nn ใหม่ทุกครั้งที่กดปุ่ม
+            demo_nn()  # เรียกหน้า demo_nn ใหม่เพียงครั้งเดียว
 
+# เรียกแค่ในหน้า demo_nn
+if 'page' in st.session_state and st.session_state.page == 'demo_nn':
+    demo_nn()
