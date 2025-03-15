@@ -4,7 +4,6 @@ from modules import about_ml
 from modules import about_nn
 from modules import demo_ml
 from modules import demo_nn
-from modules import test
 image_path = "datasources/ai5.jpg"
 
 
@@ -43,8 +42,7 @@ pages = {
     " About Machine Learning": "about_ml",
     " Discover Your Hogwarts House!": "demo_ml",
     " About Neural Network": "about_nn",
-    " Guess the disney princess👸": "demo_nn",
-    " test": "test"
+    " Guess the disney princess👸": "demo_nn"
 }
 
 for page_name, page_key in pages.items():
@@ -73,6 +71,3 @@ elif st.session_state.selected_page == "about_nn":
 
 elif st.session_state.selected_page == "demo_nn":
     demo_nn.show()
-
-elif st.session_state.selected_page == "test":
-    test.show()
