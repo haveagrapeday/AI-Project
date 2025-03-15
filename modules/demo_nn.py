@@ -34,9 +34,7 @@ def preprocess_image(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-<<<<<<< HEAD
 def show():  
-=======
 # Data Generator Setup for Training
 def setup_data_generator():
     train_datagen = ImageDataGenerator(
@@ -81,7 +79,6 @@ def train_model(train_generator):
 
 # Display function for Streamlit
 def show():
->>>>>>> parent of 718e1360 (Update demo_nn.py)
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
     action = st.radio("What would you like to do?", ["Predict", "Train Model"])
