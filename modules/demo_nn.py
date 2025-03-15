@@ -46,6 +46,14 @@ def preprocess_image(img):
 def show():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
+    if "clicked" not in st.session_state:
+        st.session_state.clicked = False
+
+    if not st.session_state.clicked:
+        st.session_state.clicked = True
+        st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
+        return
+
     if sample_images:
         # สุ่มรูปเจ้าหญิง Disney ทุกครั้งที่กดปุ่ม
         selected_label, selected_image_path = random.choice(sample_images)
@@ -77,9 +85,6 @@ def show():
             # ปัดทิ้งรูปที่มีปัญหาหรือไม่ได้มาตรฐานแล้วสุ่มรูปใหม่
             show()
             return
-        
-        # ปุ่มที่ทำนายรูปใหม่
-        st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
 
 # เรียกฟังก์ชันแสดงผล
 show()
