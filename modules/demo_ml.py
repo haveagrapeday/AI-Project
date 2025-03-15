@@ -17,12 +17,15 @@ def show():
         ("สัตว์วิเศษที่คุณอยากมีเป็นคู่หู?", ["สิงโต", "นกฮูก", "แบดเจอร์", "งู"])
     ]
     
-    responses = []
-    for q, options in questions:
-        response = st.radio(q, options, key=q)
-        responses.append(response)
-    
+    if "responses" not in st.session_state:
+        st.session_state.responses = {}
+
+    for idx, (q, options) in enumerate(questions):
+        st.session_state.responses[idx] = st.selectbox(f"**{q}**", options, key=f"q{idx}")
+
     if st.button("🔮 ทำนายบ้านของคุณ!"):
+        responses = list(st.session_state.responses.values())
+
         gryffindor = responses.count("เผชิญหน้าด้วยความกล้าหาญ") + responses.count("ความกล้าหาญ") + responses.count("สนามควิดดิช") + responses.count("สิงโต")
         ravenclaw = responses.count("วางแผนและใช้สติปัญญา") + responses.count("สติปัญญา") + responses.count("ห้องสมุด") + responses.count("นกฮูก")
         hufflepuff = responses.count("ใช้ความภักดีและอดทน") + responses.count("ความภักดี") + responses.count("ห้องนั่งเล่นอันอบอุ่น") + responses.count("แบดเจอร์")
@@ -32,38 +35,49 @@ def show():
         sorted_houses = sorted(house_scores.items(), key=lambda x: x[1], reverse=True)
         
         st.subheader(f"🏆 บ้านของคุณคือ: {sorted_houses[0][0]}!")
-        
         st.write("เลื่อนขวาเพื่อดูการวิเคราะห์บุคลิกภาพของบ้านแต่ละหลัง! ➡️")
+
     
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
-    students_file = os.path.join(data_path, "harry_potter_1000_students.csv")
-    dialogues_file = os.path.join(data_path, "harry_potter_dialogues.csv")
+    df_students = pd.read_csv(os.path.join(data_path, "harry_potter_1000_students.csv"), encoding="latin1")
+    df_dialogues = pd.read_csv(os.path.join(data_path, "harry_potter_dialogues.csv"), encoding="latin1")
     
-    if os.path.exists(students_file) and os.path.exists(dialogues_file):
-        df_students = pd.read_csv(students_file, encoding="latin1")
-        df_dialogues = pd.read_csv(dialogues_file, encoding="latin1")
-        
-        # 🔹 Clean column names
-        df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
-        df_dialogues.columns = df_dialogues.columns.str.replace(" ", "_").str.strip()
-        
-        # 🔹 1. Analyze Hogwarts House Traits
-        st.subheader("🏰 Hogwarts House Traits Analysis")
-        traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
-        house_means = df_students.groupby("House")[traits].mean()
-        house_colors = {"Gryffindor": "#B22222", "Hufflepuff": "#FFD700", "Ravenclaw": "#4682B4", "Slytherin": "#2E8B57"}
-        colors = [house_colors.get(house, "#808080") for house in house_means.index]
-        
-        fig, ax = plt.subplots(figsize=(10, 6))
-        house_means.T.plot(kind="bar", ax=ax, color=colors)
-        ax.set_title("Average Traits per Hogwarts House")
-        ax.set_ylabel("Average Score")
-        ax.legend(title="House")
-        st.pyplot(fig)
-        
-        # 🔹 2. Display Sample Data
-        st.subheader("🔍 Sample Data from Harry Potter Students")
-        st.write(df_students.head())
-    else:
-        st.error("❌ ไม่พบไฟล์ข้อมูล โปรดตรวจสอบว่าคุณมีไฟล์ข้อมูลอยู่ในโฟลเดอร์ที่ถูกต้อง!")
+    # 🔹 Clean column names
+    df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
+    df_dialogues.columns = df_dialogues.columns.str.replace(" ", "_").str.strip()
+    
+    # 🔹 1. Analyze Hogwarts House Traits
+    st.subheader("🏰 Hogwarts House Traits Analysis")
+    traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
+    house_means = df_students.groupby("House")[traits].mean()
+    house_colors = {"Gryffindor": "#B22222", "Hufflepuff": "#FFD700", "Ravenclaw": "#4682B4", "Slytherin": "#2E8B57"}
+    colors = [house_colors.get(house, "#808080") for house in house_means.index]
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    house_means.T.plot(kind="bar", ax=ax, color=colors)
+    ax.set_title("Average Traits per Hogwarts House")
+    ax.set_ylabel("Average Score")
+    ax.legend(title="House")
+    st.pyplot(fig)
+    
+    # 🔹 5. Plot dialogue count
+    st.subheader("📊 Character Dialogue Count")
+    char_counts = df_dialogues["Character_Name"].value_counts().head(10)
+    
+    fig, ax = plt.subplots()
+    sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
+    ax.set_xlabel("Dialogue Count")
+    ax.set_ylabel("Character Name")
+    ax.set_title("Top 10 Characters with Most Dialogues")
+    st.pyplot(fig)
+    
+    # 🔹 6. Select character to view dialogues
+    st.subheader("🔍 Select a Character to View Dialogues")
+    character_selected = st.selectbox("Select a Character", df_dialogues["Character_Name"].dropna().unique())
+    st.subheader(f"📢 Dialogues of {character_selected}")
+    st.write(df_dialogues[df_dialogues["Character_Name"] == character_selected][["Dialogue"]].head(5))
+    
+    # 🔹 2. Display Sample Data
+    st.subheader("🔍 Sample Data from Harry Potter Students")
+    st.write(df_students.head()) 
