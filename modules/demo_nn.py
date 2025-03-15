@@ -26,7 +26,7 @@ if class_labels:
     for label in class_labels:
         label_dir = os.path.join(DATA_DIR, label)
         if os.path.isdir(label_dir):
-            images = [os.path.join(label_dir, img) for img in os.listdir(label_dir) if img.endswith((".jpg", ".jpeg", ".png"))]  # กรองแค่ .jpg, .jpeg, .png
+            images = [os.path.join(label_dir, img) for img in os.listdir(label_dir) if img.endswith((".jpg", ".jpeg", ".png"))]
             if images:
                 sample_images.extend([(label, img) for img in images])  # เก็บรูปทั้งหมดของแต่ละ class
 
@@ -46,18 +46,11 @@ def preprocess_image(img):
 def show():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
-    if "clicked" not in st.session_state:
-        st.session_state.clicked = False
-
-    if not st.session_state.clicked:
-        st.session_state.clicked = True
-        st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
-        return
-
+    # กำหนดการแสดงผลปุ่มและการสุ่มรูปภาพ
     if sample_images:
         # สุ่มรูปเจ้าหญิง Disney ทุกครั้งที่กดปุ่ม
         selected_label, selected_image_path = random.choice(sample_images)
-        
+
         try:
             img = Image.open(selected_image_path)
             
@@ -82,8 +75,9 @@ def show():
         
         except Exception as e:
             st.error(f"🚨 ไม่สามารถประมวลผลรูปภาพนี้: {selected_image_path} เนื่องจาก: {e}")
-            st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)  # แสดงปุ่มทำนายใหม่
-            return
+    
+    # ปุ่มแรนด้อมอยู่ตลอดเวลา
+    st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
 
 # เรียกฟังก์ชันแสดงผล
 show()
