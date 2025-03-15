@@ -48,7 +48,7 @@ def show():
     
     if selected_image_path and model:
         img = Image.open(selected_image_path)
-        st.image(img, caption=f"📸 รูปตัวอย่าง: {option}", use_column_width=True)
+        st.image(img, caption=f"📸 รูปตัวอย่าง: {option}", use_container_width=True)
         
         img_array = preprocess_image(img)
         predictions = model.predict(img_array)
