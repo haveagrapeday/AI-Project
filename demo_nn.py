@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 
 # ตั้งค่าพาธโมเดลและข้อมูล
-DATA_DIR = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/AI-project/datasources/princess"
+DATA_DIR = "/datasources/princess"
 MODEL_PATH = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/AI-project/disney_princess_model.h5"
 
 IMG_SIZE = (224, 224)
