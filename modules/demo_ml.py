@@ -34,6 +34,10 @@ def show():
         st.subheader(f"🏆 บ้านของคุณคือ: {sorted_houses[0][0]}!")
         
         st.write("เลื่อนขวาเพื่อดูการวิเคราะห์บุคลิกภาพของบ้านแต่ละหลัง! ➡️")
+
+
+
+
     
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
@@ -58,8 +62,15 @@ def show():
     ax.legend(title="House")
     st.pyplot(fig)
     
-    # 🔹 5. Plot dialogue count
-    st.subheader("📊 Character Dialogue Count")
+    # 🔹 2. Display Sample Data
+    st.subheader("🔍 Sample Data from Harry Potter Students")
+    st.write(df_students.head())
+
+     # 🔹 5. Plot dialogue count
+st.subheader("📊 Character Dialogue Count")
+
+# ตรวจสอบว่ามีข้อมูลหรือไม่
+if "Character_Name" in df_dialogues.columns and not df_dialogues["Character_Name"].isna().all():
     char_counts = df_dialogues["Character_Name"].value_counts().head(10)
     
     fig, ax = plt.subplots()
@@ -68,13 +79,22 @@ def show():
     ax.set_ylabel("Character Name")
     ax.set_title("Top 10 Characters with Most Dialogues")
     st.pyplot(fig)
-    
-    # 🔹 6. Select character to view dialogues
-    st.subheader("🔍 Select a Character to View Dialogues")
-    character_selected = st.selectbox("Select a Character", df_dialogues["Character_Name"].dropna().unique())
+else:
+    st.warning("⚠️ No character dialogue data available.")
+
+# 🔹 6. Select character to view dialogues
+st.subheader("🔍 Select a Character to View Dialogues")
+valid_characters = df_dialogues["Character_Name"].dropna().unique()
+
+if len(valid_characters) > 0:
+    character_selected = st.selectbox("Select a Character", valid_characters)
     st.subheader(f"📢 Dialogues of {character_selected}")
-    st.write(df_dialogues[df_dialogues["Character_Name"] == character_selected][["Dialogue"]].head(5))
     
-    # 🔹 2. Display Sample Data
-    st.subheader("🔍 Sample Data from Harry Potter Students")
-    st.write(df_students.head())
+    dialogues = df_dialogues[df_dialogues["Character_Name"] == character_selected][["Dialogue"]].dropna().head(5)
+    
+    if not dialogues.empty:
+        st.write(dialogues)
+    else:
+        st.write("No dialogues available for this character.")
+else:
+    st.warning("⚠️ No valid character data available.")
