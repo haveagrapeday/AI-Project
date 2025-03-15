@@ -1,9 +1,9 @@
 import streamlit as st
 import importlib
-import about_ml
-import about_nn
-import demo_ml
-import demo_nn
+from modules import about_ml
+from modules import about_nn
+from modules import demo_ml
+from modules import demo_nn
 
 # 🔹 พาธรูปภาพ
 image_path = "datasources/ai5.jpg"
