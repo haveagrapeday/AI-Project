@@ -26,7 +26,7 @@ def preprocess_image(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-def show():  # ✅ เพิ่มฟังก์ชัน show()
+def show():  
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
     uploaded_file = st.file_uploader("📤 อัปโหลดรูปเจ้าหญิง Disney", type=["jpg", "png", "jpeg"])

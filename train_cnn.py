@@ -79,7 +79,7 @@ def main():
     
     class_weights = compute_class_weights(train_generator)
     
-    print("🛠️ Building model...")
+    print("🛠️ Building model..")
     model = build_model((IMG_SIZE[0], IMG_SIZE[1], 3), len(train_generator.class_indices))
     
     callbacks = [
@@ -95,3 +95,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+

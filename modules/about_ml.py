@@ -12,7 +12,7 @@ def show():
         to analyze dialogues from the Harry Potter movies.
     """)
     st.image("datasources/300.gif", use_container_width=600)
-    # Data Preparation
+  
     st.subheader("🔹 Data Preparation")
     st.write("""
         - **Dataset Source**: Kaggle (Harry Potter Dialogue Dataset)

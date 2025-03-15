@@ -8,7 +8,7 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("Find out which Hogwarts house you should be in! 🏰✨")
     
-   # 🔹 คำถามวิเคราะห์อุปนิสัย
+  
     st.subheader("🏠 Hogwarts House Personality")
     questions = [
         ("What do you consider your most prominent quality?", ["Courage", "Intelligence", "Loyalty", "Ambition"]),

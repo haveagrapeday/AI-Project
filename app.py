@@ -4,9 +4,6 @@ from modules import about_ml
 from modules import about_nn
 from modules import demo_ml
 from modules import demo_nn
-
-
-# 🔹 พาธรูปภาพ
 image_path = "datasources/ai5.jpg"
 
 
@@ -15,7 +12,6 @@ importlib.reload(about_nn)
 importlib.reload(demo_ml)
 importlib.reload(demo_nn)
 
-# 🔹 CSS ปรับ Sidebar
 st.markdown(
     """
     <style>
@@ -39,11 +35,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🔹 จัดการ Session State
+
 if 'selected_page' not in st.session_state:
     st.session_state.selected_page = "home"
 
-# 🔹 Sidebar Menu
+
 st.sidebar.markdown("<h2 style='text-align: center;'> Navigation</h2>", unsafe_allow_html=True)
 
 pages = {
@@ -64,7 +60,7 @@ if st.session_state.selected_page == "home":
     st.subheader("Explore Machine Learning and Neural Networks")
     st.write("This project demonstrates how Machine Learning and Neural Networks work with interactive visualizations and real-world examples.")
 
-    # 🔹 **แสดงรูปภาพ**
+   
     st.image(image_path, caption="AI Concept Image", use_container_width=True)
 
     st.subheader("Get started by selecting a topic from the sidebar!")
