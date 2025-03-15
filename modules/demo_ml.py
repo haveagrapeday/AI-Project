@@ -26,22 +26,30 @@ def show():
 
     # 🔹 5. Plot dialogue count
     st.subheader("📊 Character Dialogue Count")
-    df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
-    char_counts = df["Character_Name"].value_counts().head(10)
-
-    fig, ax = plt.subplots()
-    sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
-    ax.set_xlabel("Dialogue Count")
-    ax.set_ylabel("Character Name")
-    ax.set_title("Top 10 Characters with Most Dialogues")
-    st.pyplot(fig)
+    if "Character_ID" in df_dialogue.columns and "Character_ID" in df_characters.columns:
+        df_dialogue = df_dialogue.dropna(subset=["Character_ID"])
+        df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
+        if "Character_Name" in df.columns:
+            char_counts = df["Character_Name"].value_counts().head(10)
+            
+            fig, ax = plt.subplots()
+            sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
+            ax.set_xlabel("Dialogue Count")
+            ax.set_ylabel("Character Name")
+            ax.set_title("Top 10 Characters with Most Dialogues")
+            st.pyplot(fig)
+        else:
+            st.error("❌ 'Character_Name' column missing after merge.")
+    else:
+        st.error("❌ 'Character_ID' column missing in one of the dataframes.")
 
     # 🔹 6. Select character to view dialogues
     st.subheader("🔍 Select a Character to View Dialogues")
-    character_selected = st.selectbox("Select a Character", df["Character_Name"].dropna().unique())
-    st.subheader(f"📢 Dialogues of {character_selected}")
-    st.write(df[df["Character_Name"] == character_selected][["Dialogue"]].head(5))
-
+    if "Character_Name" in df.columns:
+        character_selected = st.selectbox("Select a Character", df["Character_Name"].dropna().unique())
+        st.subheader(f"📢 Dialogues of {character_selected}")
+        st.write(df[df["Character_Name"] == character_selected][["Dialogue"]].head(5))
+    
     # 🔹 7. Analyze Hogwarts House Traits
     st.subheader("🏰 Hogwarts House Traits Analysis")
     traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
