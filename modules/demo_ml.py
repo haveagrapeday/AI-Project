@@ -11,10 +11,18 @@ def show():
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
     df_students = pd.read_csv(os.path.join(data_path, "harry_potter_1000_students.csv"), encoding="latin1")
+    df_dialogues = pd.read_csv(os.path.join(data_path, "Dialogue.csv"), encoding="latin1")
 
     # 🔹 Clean column names
     df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
     
+ # 🔹 0. Select character to view dialogues
+    st.subheader("🔍 Select a Character to View Dialogues")
+    character_selected = st.selectbox("Select a Character", df_dialogues["Character_Name"].dropna().unique())
+    st.subheader(f"📢 Dialogues of {character_selected}")
+    st.write(df_dialogues[df_dialogues["Character_Name"] == character_selected][["Dialogue"]].head(5))
+    
+
     # 🔹 1. Analyze Hogwarts House Traits
     st.subheader("🏰 Hogwarts House Traits Analysis")
     traits = ["Bravery", "Intelligence", "Loyalty", "Ambition", "Dark_Arts_Knowledge", "Quidditch_Skills", "Dueling_Skills", "Creativity"]
@@ -29,11 +37,9 @@ def show():
     ax.legend(title="House")
     st.pyplot(fig)
     
-    # 🔹 2. Display Sample Data
-    st.subheader("🔍 Sample Data from Harry Potter Students")
-    st.write(df_students.head())
 
-    # 🔹 3. Character Personality Traits Demo
+
+    # 🔹 2. Character Personality Traits Demo
     st.subheader("🎭 Character Personality Traits")
     characters = {
         "Harry Potter": ([8, 7, 6, 5, 2, 9, 6, 4], "Gryffindor"),
