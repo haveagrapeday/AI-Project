@@ -9,49 +9,7 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("This page displays data and basic analysis for Machine Learning.")
 
-    # 🔹 1. Load CSV files
-    st.subheader("📌 Load Data Files")
-    code_load = '''
-import pandas as pd
-
-df_dialogue = pd.read_csv("datasources/Harry_Potter_Movies/Dialogue.csv", encoding="latin1")
-df_characters = pd.read_csv("datasources/Harry_Potter_Movies/Characters.csv", encoding="latin1")
-df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
-'''
-    st.code(code_load, language="python")
     
-    data_path = "datasources/Harry_Potter_Movies"
-    files = ["Dialogue.csv", "Characters.csv"]
-    dataframes = {}
-    
-    for file in files:
-        file_path = os.path.join(data_path, file)
-        if os.path.exists(file_path):
-            dataframes[file] = pd.read_csv(file_path, encoding="latin1")
-        else:
-            st.error(f"❌ {file} not found. Please check the file path.")
-            return
-
-    df_dialogue = dataframes["Dialogue.csv"]
-    df_characters = dataframes["Characters.csv"]
-    df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
-
-    # 🔹 2. Clean column names
-    st.subheader("📌 Clean Column Names")
-    for df in [df_dialogue, df_characters, df_students]:
-        df.columns = df.columns.str.replace(" ", "_").str.strip()
-
-    # 🔹 3. Display columns of each file
-    st.subheader("🔍 Columns in Each File")
-    for name, df in dataframes.items():
-        st.write(f"**{name}:**", list(df.columns))
-
-    # 🔹 4. Merge Dialogue.csv + Characters.csv
-    if "Character_ID" in df_dialogue.columns and "Character_ID" in df_characters.columns and "Character_Name" in df_characters.columns:
-        st.subheader("📌 Merge Dialogue and Characters Data")
-        df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
-        st.write("**🔍 Sample of Merged Data:**")
-        st.write(df.head())
 
     # 🔹 5. Plot dialogue count
     st.subheader("📊 Character Dialogue Count")
