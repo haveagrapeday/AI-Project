@@ -8,7 +8,7 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("Find out which Hogwarts house you should be in! 🏰✨")
     
-  
+    # 👇 ส่วนของแบบทดสอบการเลือกบ้าน
     st.subheader("🏠 Hogwarts House Personality")
     questions = [
         ("What do you consider your most prominent quality?", ["Courage", "Intelligence", "Loyalty", "Ambition"]),
@@ -40,8 +40,6 @@ def show():
         
         st.subheader(f"🏆 Your Hogwarts House is: {sorted_houses[0][0]}!")
 
-
-    
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
     students_file = os.path.join(data_path, "harry_potter_1000_students.csv")
@@ -69,4 +67,6 @@ def show():
         ax.legend(title="House")
         st.pyplot(fig)
         
-    
+    else:
+        st.warning("❌ Data files not found! Please ensure that the files 'harry_potter_1000_students.csv' and 'Dialogue.csv' are in the correct directory.")
+
