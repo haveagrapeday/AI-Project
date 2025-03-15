@@ -58,6 +58,26 @@ def show():
     ax.legend(title="House")
     st.pyplot(fig)
     
+
+  # 🔹 5. Plot dialogue count
+    st.subheader("📊 Character Dialogue Count")
+    char_counts = df["Character_Name"].value_counts().head(10)
+
+    fig, ax = plt.subplots()
+    sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
+    ax.set_xlabel("Dialogue Count")
+    ax.set_ylabel("Character Name")
+    ax.set_title("Top 10 Characters with Most Dialogues")
+    st.pyplot(fig)
+
+    # 🔹 6. Select character to view dialogues
+    st.subheader("🔍 Select a Character to View Dialogues")
+    character_selected = st.selectbox("Select a Character", df["Character_Name"].dropna().unique())
+    st.subheader(f"📢 Dialogues of {character_selected}")
+    st.write(df[df["Character_Name"] == character_selected][["Dialogue"]].head(5))
+
+
+
     # 🔹 2. Display Sample Data
     st.subheader("🔍 Sample Data from Harry Potter Students")
     st.write(df_students.head())
