@@ -17,12 +17,15 @@ def show():
         ("สัตว์วิเศษที่คุณอยากมีเป็นคู่หู?", ["สิงโต", "นกฮูก", "แบดเจอร์", "งู"])
     ]
     
-    responses = []
-    for q, options in questions:
-        response = st.radio(q, options, key=q)
-        responses.append(response)
-    
+    if "responses" not in st.session_state:
+        st.session_state.responses = {}
+
+    for idx, (q, options) in enumerate(questions):
+        st.session_state.responses[idx] = st.selectbox(f"**{q}**", options, key=f"q{idx}")
+
     if st.button("🔮 ทำนายบ้านของคุณ!"):
+        responses = list(st.session_state.responses.values())
+
         gryffindor = responses.count("เผชิญหน้าด้วยความกล้าหาญ") + responses.count("ความกล้าหาญ") + responses.count("สนามควิดดิช") + responses.count("สิงโต")
         ravenclaw = responses.count("วางแผนและใช้สติปัญญา") + responses.count("สติปัญญา") + responses.count("ห้องสมุด") + responses.count("นกฮูก")
         hufflepuff = responses.count("ใช้ความภักดีและอดทน") + responses.count("ความภักดี") + responses.count("ห้องนั่งเล่นอันอบอุ่น") + responses.count("แบดเจอร์")
@@ -32,8 +35,8 @@ def show():
         sorted_houses = sorted(house_scores.items(), key=lambda x: x[1], reverse=True)
         
         st.subheader(f"🏆 บ้านของคุณคือ: {sorted_houses[0][0]}!")
-        
-        st.write("เลื่อนขวาเพื่อดูการวิเคราะห์บุคลิกภาพของบ้านแต่ละหลัง! ➡️")
+       
+
     
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
