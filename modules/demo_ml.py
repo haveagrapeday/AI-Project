@@ -52,17 +52,7 @@ def show():
         # 🔹 Clean column names
         df_students.columns = df_students.columns.str.replace(" ", "_").str.strip()
         df_dialogues.columns = df_dialogues.columns.str.replace(" ", "_").str.strip()
-        
-        # 🔹 5. Plot Dialogue Count
-        st.subheader("📊 Character Dialogue Count")
-        char_counts = df_dialogues["Character_Name"].value_counts().head(10)
-        
-        fig, ax = plt.subplots()
-        sns.barplot(x=char_counts.values, y=char_counts.index, palette="viridis", ax=ax)
-        ax.set_xlabel("Dialogue Count")
-        ax.set_ylabel("Character Name")
-        ax.set_title("Top 10 Characters with Most Dialogues")
-        st.pyplot(fig)
+    
         
         # 🔹 7. Analyze Hogwarts House Traits
         st.subheader("🏰 Hogwarts House Traits Analysis")
@@ -78,9 +68,7 @@ def show():
         ax.legend(title="House")
         st.pyplot(fig)
         
-        # 🔹 8. Display Sample Data
-        st.subheader("🔍 Sample Data from Harry Potter Students")
-        st.write(df_students.head())
+       
 
         # 🔹 9. Character Personality Traits Demo
         st.subheader("🎭 Character Personality Traits")
