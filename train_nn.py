@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # โหลด dataset จากโฟลเดอร์
-dataset_path = "dataset/"
+dataset_path = "datasource/"
 
 datagen = ImageDataGenerator(
     rescale=1./255,

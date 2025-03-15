@@ -7,8 +7,8 @@ from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 
 # ตั้งค่าพาธโมเดลและข้อมูล
-DATA_DIR = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/datasources/princess"
-MODEL_PATH = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/disney_princess_model.h5"
+DATA_DIR = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/AI-project/datasources/princess"
+MODEL_PATH = "C:/Users/uoobu/Desktop/Final/Fianl-project-AI/AI-project/disney_princess_model.h5"
 
 IMG_SIZE = (224, 224)
 CLASS_NAMES = ["Anna", "Ariel", "Aurora", "Belle", "Cinderella", "Elsa", "Jasmine", "Merida", "Rapunzel", "Snow White", "Tiana"]

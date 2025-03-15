@@ -10,8 +10,8 @@ def show():
     # 🔹 1. Load CSV files
     st.subheader("📌 Load Dialogue.csv and Characters.csv")
     code_load = '''
-df_dialogue = pd.read_csv("C:/Users/uoobu/Desktop/Final/Fianl-project-AI/datasources/Harry_Potter_Movies/Dialogue.csv", encoding="latin1")
-df_characters = pd.read_csv("C:/Users/uoobu/Desktop/Final/Fianl-project-AI/datasources/Harry_Potter_Movies/Characters.csv", encoding="latin1")
+df_dialogue = pd.read_csv("datasources/Harry_Potter_Movies/Dialogue.csv", encoding="latin1")
+df_characters = pd.read_csv("datasources/Harry_Potter_Movies/Characters.csv", encoding="latin1")
 '''
     st.code(code_load, language="python")
     
