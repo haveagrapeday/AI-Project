@@ -9,7 +9,7 @@ from modules import demo_nn
 # 🔹 พาธรูปภาพ
 image_path = "datasources/ai5.jpg"
 
-# 🔹 โหลดโมดูลใหม่ (สำหรับพัฒนา)
+
 importlib.reload(about_ml)
 importlib.reload(about_nn)
 importlib.reload(demo_ml)
