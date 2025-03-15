@@ -6,15 +6,19 @@ import os
 
 def show():
     st.title("📊 Machine Learning Demo")
-    st.write("ค้นหาว่าคุณควรอยู่บ้านไหนในฮอกวอตส์! 🏰✨")
+    st.write("Find out which Hogwarts house you should be in! 🏰✨")
     
-    # 🔹 คำถามวิเคราะห์อุปนิสัย
-    st.subheader("🏠 คำถามวิเคราะห์บ้านฮอกวอตส์")
+   # 🔹 คำถามวิเคราะห์อุปนิสัย
+    st.subheader("🏠 Hogwarts House Personality")
     questions = [
-        ("เมื่อเผชิญหน้ากับความท้าทาย คุณมักจะ?", ["เผชิญหน้าด้วยความกล้าหาญ", "วางแผนและใช้สติปัญญา", "ใช้ความภักดีและอดทน", "ใช้ความทะเยอทะยานเพื่อเอาชนะ"]),
-        ("คุณให้ความสำคัญกับอะไรเป็นอันดับแรก?", ["ความกล้าหาญ", "สติปัญญา", "ความภักดี", "อำนาจและความสำเร็จ"]),
-        ("สถานที่ในฮอกวอตส์ที่คุณอยากไปมากที่สุด?", ["สนามควิดดิช", "ห้องสมุด", "ห้องนั่งเล่นอันอบอุ่น", "ห้องแห่งความลับ"]),
-        ("สัตว์วิเศษที่คุณอยากมีเป็นคู่หู?", ["สิงโต", "นกฮูก", "แบดเจอร์", "งู"])
+        ("What do you consider your most prominent quality?", ["Courage", "Intelligence", "Loyalty", "Ambition"]),
+        ("What do you value most?", ["Justice", "Knowledge", "Friendship", "Power"]),
+        ("If you saw a friend being bullied, what would you do?", ["Intervene immediately.", "Carefully plan a course of action before intervening.", "Try to resolve the situation peacefully through negotiation.", "Look for an opportunity to benefit from the situation."]),
+        ("If you could learn one magical subject, which would you choose?", ["Defense Against the Dark Arts", "Potions", "Care of Magical Creatures", "Transfiguration"]),
+        ("If you had to make a quick decision, what would you do?", ["Act immediately without hesitation.", "Analyze the situation thoroughly before deciding.", "Consider the impact on others before deciding.", "Decide based on your own best interests."]),
+        ("What kind of place do you like the most?", ["Mountains, waterfalls", "Bookstores", "Cafes, workshops", "Hotels, bars"]),
+        ("If you had the opportunity to be a leader, what would you do?", ["Make bold and decisive decisions.", "Use knowledge and wisdom.", "Be empathetic and listen to others' opinions.", "Lead the team towards success."]),
+        ("If you had to work with someone you dislike, what would you do?", ["Complete the work without regard for the conflict.", "Think carefully and suggest a better way.", "Try to create a friendly and respectful atmosphere.", "Not cooperate and work alone, focusing on the results."])
     ]
     
     if "responses" not in st.session_state:
@@ -23,19 +27,19 @@ def show():
     for idx, (q, options) in enumerate(questions):
         st.session_state.responses[idx] = st.selectbox(f"**{q}**", options, key=f"q{idx}")
 
-    if st.button("🔮 ทำนายบ้านของคุณ!"):
+    if st.button("🔮 Discover Your Hogwarts House!"):
         responses = list(st.session_state.responses.values())
 
-        gryffindor = responses.count("เผชิญหน้าด้วยความกล้าหาญ") + responses.count("ความกล้าหาญ") + responses.count("สนามควิดดิช") + responses.count("สิงโต")
-        ravenclaw = responses.count("วางแผนและใช้สติปัญญา") + responses.count("สติปัญญา") + responses.count("ห้องสมุด") + responses.count("นกฮูก")
-        hufflepuff = responses.count("ใช้ความภักดีและอดทน") + responses.count("ความภักดี") + responses.count("ห้องนั่งเล่นอันอบอุ่น") + responses.count("แบดเจอร์")
-        slytherin = responses.count("ใช้ความทะเยอทะยานเพื่อเอาชนะ") + responses.count("อำนาจและความสำเร็จ") + responses.count("ห้องแห่งความลับ") + responses.count("งู")
+        gryffindor = responses.count("Courage") + responses.count("Justice") + responses.count("Intervene immediately.") + responses.count("Defense Against the Dark Arts") + responses.count("Act immediately without hesitation.") + responses.count("Mountains, waterfalls") + responses.count("Make bold and decisive decisions.") + responses.count("Complete the work without regard for the conflict.")
+        ravenclaw = responses.count("Intelligence") + responses.count("Knowledge") + responses.count("Carefully plan a course of action before intervening.") + responses.count("Potions") + responses.count("Analyze the situation thoroughly before deciding.") + responses.count("Bookstores") + responses.count("Use knowledge and wisdom.") + responses.count("Think carefully and suggest a better way.")
+        hufflepuff = responses.count("Loyalty") + responses.count("Friendship") + responses.count("Try to resolve the situation peacefully through negotiation.") + responses.count("Care of Magical Creatures") + responses.count("Consider the impact on others before deciding.") + responses.count("Cafes, workshops") + responses.count("Be empathetic and listen to others' opinions.") + responses.count("Try to create a friendly and respectful atmosphere.")
+        slytherin = responses.count("Ambition") + responses.count("Power") + responses.count("Look for an opportunity to benefit from the situation.") + responses.count("Transfiguration") + responses.count("Decide based on your own best interests.") + responses.count("Hotels, bars") + responses.count("Lead the team towards success.") + responses.count("Not cooperate and work alone, focusing on the results.")
         
         house_scores = {"Gryffindor": gryffindor, "Ravenclaw": ravenclaw, "Hufflepuff": hufflepuff, "Slytherin": slytherin}
         sorted_houses = sorted(house_scores.items(), key=lambda x: x[1], reverse=True)
         
-        st.subheader(f"🏆 บ้านของคุณคือ: {sorted_houses[0][0]}!")
-       
+        st.subheader(f"🏆 Your Hogwarts House is: {sorted_houses[0][0]}!")
+
 
     
     # 🔹 Load Data Files
@@ -65,8 +69,4 @@ def show():
         ax.legend(title="House")
         st.pyplot(fig)
         
-        # 🔹 2. Display Sample Data
-        st.subheader("🔍 Sample Data from Harry Potter Students")
-        st.write(df_students.head())
-    else:
-        st.error("❌ ไม่พบไฟล์ข้อมูล โปรดตรวจสอบว่าคุณมีไฟล์ข้อมูลอยู่ในโฟลเดอร์ที่ถูกต้อง!")
+    
