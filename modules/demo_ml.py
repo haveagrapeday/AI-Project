@@ -9,13 +9,16 @@ def show():
     st.title("📊 Machine Learning Demo")
     st.write("This page displays data and basic analysis for Machine Learning.")
 
-    import pandas as pd
+    # 🔹 1. Load CSV files
+    st.subheader("📌 Load Data Files")
+    code_load = '''
+import pandas as pd
 
 df_dialogue = pd.read_csv("datasources/Harry_Potter_Movies/Dialogue.csv", encoding="latin1")
 df_characters = pd.read_csv("datasources/Harry_Potter_Movies/Characters.csv", encoding="latin1")
 df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
-
-st.code(code_load, language="python")
+'''
+    st.code(code_load, language="python")
     
     data_path = "datasources/Harry_Potter_Movies"
     files = ["Dialogue.csv", "Characters.csv"]
@@ -49,10 +52,6 @@ st.code(code_load, language="python")
         df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
         st.write("**🔍 Sample of Merged Data:**")
         st.write(df.head())
-
-
-
-    st.image("datasources/200.gif", use_container_width=True)
 
     # 🔹 5. Plot dialogue count
     st.subheader("📊 Character Dialogue Count")
