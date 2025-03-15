@@ -39,20 +39,26 @@ def preprocess_image(img):
 def show():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
-    if st.button("🔀 สุ่มรูปเจ้าหญิง Disney"):
+    if sample_images:
+        # สุ่มรูปเจ้าหญิง Disney ทุกครั้งที่กดปุ่ม
         selected_label, selected_image_path = random.choice(sample_images)
         
-        if selected_image_path and model:
-            img = Image.open(selected_image_path)
-            st.image(img, caption=f"📸 รูปตัวอย่าง: {selected_label}", use_container_width=True)
-            
-            img_array = preprocess_image(img)
-            predictions = model.predict(img_array)
-            
-            if class_labels:
-                predicted_class = class_labels[np.argmax(predictions)]
-                confidence = np.max(predictions) * 100
-                st.write(f"✨ เจ้าหญิงที่ทำนายได้: **{predicted_class}**")
-                st.write(f"🎯 ความมั่นใจ: **{confidence:.2f}%**")
-            else:
-                st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
+        img = Image.open(selected_image_path)
+        st.image(img, caption=f"📸 รูปตัวอย่าง: {selected_label}", use_container_width=True)
+        
+        img_array = preprocess_image(img)
+        predictions = model.predict(img_array)
+        
+        if class_labels:
+            predicted_class = class_labels[np.argmax(predictions)]
+            confidence = np.max(predictions) * 100
+            st.write(f"✨ เจ้าหญิงที่ทำนายได้: **{predicted_class}**")
+            st.write(f"🎯 ความมั่นใจ: **{confidence:.2f}%**")
+        else:
+            st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
+        
+        # ปุ่มที่ทำนายรูปใหม่
+        st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
+
+# เรียกฟังก์ชันแสดงผล
+show()
