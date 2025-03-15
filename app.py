@@ -5,7 +5,6 @@ from modules import about_nn
 from modules import demo_ml
 from modules import demo_nn
 
-importlib.reload(about_ml)
 
 # 🔹 พาธรูปภาพ
 image_path = "datasources/ai5.jpg"
