@@ -38,7 +38,7 @@ def show():
     # 🔹 Load Data Files
     data_path = "datasources/Harry_Potter_Movies"
     students_file = os.path.join(data_path, "harry_potter_1000_students.csv")
-    dialogues_file = os.path.join(data_path, "harry_potter_dialogues.csv")
+    dialogues_file = os.path.join(data_path, "Dialogue.csv")
     
     if os.path.exists(students_file) and os.path.exists(dialogues_file):
         df_students = pd.read_csv(students_file, encoding="latin1")
