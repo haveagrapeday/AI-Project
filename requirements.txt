@@ -7,3 +7,4 @@ joblib
 streamlit-option-menu
 pillow
 matplotlib
+seaborn
