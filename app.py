@@ -7,11 +7,6 @@ from modules import demo_nn
 image_path = "datasources/ai5.jpg"
 
 
-importlib.reload(about_ml)
-importlib.reload(about_nn)
-importlib.reload(demo_ml)
-importlib.reload(demo_nn)
-
 st.markdown(
     """
     <style>
