@@ -73,3 +73,6 @@ elif st.session_state.selected_page == "about_nn":
 
 elif st.session_state.selected_page == "demo_nn":
     demo_nn.show()
+
+elif st.session_state.selected_page == "test":
+    test.show()
