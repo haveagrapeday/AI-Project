@@ -4,22 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-
 def show():
     st.title("📊 Machine Learning Demo")
     st.write("This page displays data and basic analysis for Machine Learning.")
 
-    # 🔹 1. Load CSV files
-    st.subheader("📌 Load Data Files")
-    code_load = '''
-import pandas as pd
-
-df_dialogue = pd.read_csv("datasources/Harry_Potter_Movies/Dialogue.csv", encoding="latin1")
-df_characters = pd.read_csv("datasources/Harry_Potter_Movies/Characters.csv", encoding="latin1")
-df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
-'''
-    st.code(code_load, language="python")
-    
     data_path = "datasources/Harry_Potter_Movies"
     files = ["Dialogue.csv", "Characters.csv"]
     dataframes = {}
@@ -36,25 +24,9 @@ df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_stu
     df_characters = dataframes["Characters.csv"]
     df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_students.csv", encoding="latin1")
 
-    # 🔹 2. Clean column names
-    st.subheader("📌 Clean Column Names")
-    for df in [df_dialogue, df_characters, df_students]:
-        df.columns = df.columns.str.replace(" ", "_").str.strip()
-
-    # 🔹 3. Display columns of each file
-    st.subheader("🔍 Columns in Each File")
-    for name, df in dataframes.items():
-        st.write(f"**{name}:**", list(df.columns))
-
-    # 🔹 4. Merge Dialogue.csv + Characters.csv
-    if "Character_ID" in df_dialogue.columns and "Character_ID" in df_characters.columns and "Character_Name" in df_characters.columns:
-        st.subheader("📌 Merge Dialogue and Characters Data")
-        df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
-        st.write("**🔍 Sample of Merged Data:**")
-        st.write(df.head())
-
     # 🔹 5. Plot dialogue count
     st.subheader("📊 Character Dialogue Count")
+    df = df_dialogue.merge(df_characters, on="Character_ID", how="left")
     char_counts = df["Character_Name"].value_counts().head(10)
 
     fig, ax = plt.subplots()
@@ -83,11 +55,7 @@ df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_stu
     ax.set_ylabel("Average Score")
     ax.legend(title="House")
     st.pyplot(fig)
-    
-    # 🔹 8. Display Sample Data
-    st.subheader("🔍 Sample Data from Harry Potter Students")
-    st.write(df_students.head())
-
+  
     # 🔹 9. Character Personality Traits Demo
     st.subheader("🎭 Character Personality Traits")
     characters = {
@@ -103,7 +71,6 @@ df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_stu
         "Luna Lovegood": ([6, 9, 8, 2, 1, 1, 2, 10], "Ravenclaw"),
         "Gilderoy Lockhart": ([2, 3, 1, 5, 3, 1, 3, 6], "Ravenclaw"),
         "Cedric Diggory": ([5, 2, 3, 7, 1, 8, 6, 3], "Hufflepuff"),
-
     }
     
     character_names = list(characters.keys())
@@ -120,7 +87,3 @@ df_students = pd.read_csv("datasources/Harry_Potter_Movies/harry_potter_1000_stu
     ax.set_ylabel("Trait")
     ax.set_title(f"Personality Traits of {selected_character} ({house})")
     st.pyplot(fig)
-
-
-
-    
