@@ -36,11 +36,12 @@ def preprocess_image(img):
     img_array = np.expand_dims(img_array, axis=0) / 255.0
     return img_array
 
-def show():
+# ฟังก์ชัน demo_nn เพื่อให้ใช้งานในหน้า Demo ของ Neural Network เท่านั้น
+def demo_nn():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
+    # ตรวจสอบว่ามีรูปใน sample_images หรือไม่
     if sample_images:
-        # สุ่มรูปเจ้าหญิง Disney ทุกครั้งที่กดปุ่ม
         selected_label, selected_image_path = random.choice(sample_images)
         
         img = Image.open(selected_image_path)
@@ -57,8 +58,10 @@ def show():
         else:
             st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
         
-        # ปุ่มที่ทำนายรูปใหม่
-        st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่", on_click=show)
+        # ปุ่มทำนายรูปใหม่
+        if st.button("🔀 ทำนายรูปเจ้าหญิง Disney ใหม่"):
+            demo_nn()  # เรียกหน้า demo_nn ใหม่ทุกครั้งที่กดปุ่ม
 
-# เรียกฟังก์ชันแสดงผล
-show()
+# แสดงผลแค่ในหน้า demo_nn
+if 'page' in st.session_state and st.session_state.page == 'demo_nn':
+    demo_nn()
