@@ -10,9 +10,10 @@ def show():
     st.write("This page explains the process of developing a Neural Network, from data preparation to model development")
 
     st.image("datasources/1.gif", use_container_width=600)
+    
     # Step 1: Data Preparation
     st.subheader("🔹 Data Preparation")
-    st.write("""
+    st.write(""" 
     Before training the model, we need to prepare the data so that it's in the right format for the model
     - Use a **dataset** from sources such as Kaggle
     - **Remove duplicate** or corrupted data
@@ -98,9 +99,8 @@ model.fit(train_generator, validation_data=validation_generator, epochs=10)
     We can adjust hyperparameters such as **Learning Rate** or **Batch Size** to achieve the best model performance.
     """)
 
+    # Display additional image after content
+    st.image("datasources/2.gif", use_container_width=600)
+
 if __name__ == "__main__":
     show()
-
-
-
-  st.image("datasources/2.gif", use_container_width=600)
