@@ -5,6 +5,7 @@ def show():
     st.title("📖 Neural Networks Development Guide")
     st.write("This page explains the process of developing a Neural Network, from data preparation to model development")
 
+    st.image("datasources/1.gif", use_container_width=600)
     # Step 1: Data Preparation
     st.subheader("🔹 Data Preparation")
     st.write("""
@@ -95,3 +96,7 @@ model.fit(train_generator, validation_data=validation_generator, epochs=10)
 
 if __name__ == "__main__":
     show()
+
+
+
+  st.image("datasources/2.gif", use_container_width=600)
