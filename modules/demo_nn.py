@@ -1,6 +1,7 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
+import random
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
@@ -27,7 +28,7 @@ if class_labels:
         if os.path.isdir(label_dir):
             images = [os.path.join(label_dir, img) for img in os.listdir(label_dir) if img.endswith((".jpg", ".png", ".jpeg"))]
             if images:
-                sample_images.append((label, images[0]))  # เลือกรูปตัวอย่างแรกของแต่ละ class และคัดเลือกให้เหมาะสม
+                sample_images.extend([(label, img) for img in images])  # เก็บรูปทั้งหมดของแต่ละ class
 
 def preprocess_image(img):
     img = img.resize((224, 224))
@@ -38,20 +39,20 @@ def preprocess_image(img):
 def show():
     st.title("🧚‍♀️ Princess Classifier - Neural Network")
     
-    option_index = st.slider("📸 เลือกตัวอย่างรูปเจ้าหญิง Disney", 0, len(sample_images) - 1, 0)
-    option_label, selected_image_path = sample_images[option_index]
-    
-    if selected_image_path and model:
-        img = Image.open(selected_image_path)
-        st.image(img, caption=f"📸 รูปตัวอย่าง: {option_label}", use_container_width=True)
+    if st.button("🔀 สุ่มรูปเจ้าหญิง Disney"):
+        selected_label, selected_image_path = random.choice(sample_images)
         
-        img_array = preprocess_image(img)
-        predictions = model.predict(img_array)
-        
-        if class_labels:
-            predicted_class = class_labels[np.argmax(predictions)]
-            confidence = np.max(predictions) * 100
-            st.write(f"✨ เจ้าหญิงที่ทำนายได้: **{predicted_class}**")
-            st.write(f"🎯 ความมั่นใจ: **{confidence:.2f}%**")
-        else:
-            st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
+        if selected_image_path and model:
+            img = Image.open(selected_image_path)
+            st.image(img, caption=f"📸 รูปตัวอย่าง: {selected_label}", use_container_width=True)
+            
+            img_array = preprocess_image(img)
+            predictions = model.predict(img_array)
+            
+            if class_labels:
+                predicted_class = class_labels[np.argmax(predictions)]
+                confidence = np.max(predictions) * 100
+                st.write(f"✨ เจ้าหญิงที่ทำนายได้: **{predicted_class}**")
+                st.write(f"🎯 ความมั่นใจ: **{confidence:.2f}%**")
+            else:
+                st.error("🚨 ไม่พบข้อมูล class labels! กรุณาตรวจสอบโฟลเดอร์ `datasources/princess`")
