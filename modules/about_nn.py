@@ -24,11 +24,6 @@ def show():
     # Display sample images of Disney Princesses (e.g., Belle, Aurora)
     st.write("Here are sample images of Disney Princesses we will use for training:")
 
-    # Example of images with captions (replace with real URLs or file paths)
-    st.image("https://example.com/belle_image.jpg", caption="Princess Belle", width=224)
-    st.image("https://example.com/aurora_image.jpg", caption="Princess Aurora", width=224)
-    st.image("https://example.com/cinderella_image.jpg", caption="Princess Cinderella", width=224)
-    st.image("https://example.com/ariel_image.jpg", caption="Princess Ariel", width=224)
 
     st.code("""
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
